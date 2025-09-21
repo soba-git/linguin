@@ -3,8 +3,8 @@ import { Nunito } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 
-const nunitoSans = Nunito({
-  variable: "--font-nunito-sans",
+const nunito = Nunito({
+  variable: "--font-nunito",
   subsets: ["latin"],
 });
 
@@ -26,7 +26,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body
-          className={`${nunitoSans.variable} antialiased`}
+          className={`${nunito.variable} antialiased`}
         >
           {children}
         </body>
