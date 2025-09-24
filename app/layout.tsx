@@ -3,10 +3,7 @@ import { Nunito } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 
-const nunito = Nunito({
-  variable: "--font-nunito",
-  subsets: ["latin"],
-});
+const nunito = Nunito({ subsets: ['latin'], variable: '--font-nunito' });
 
 
 export const metadata: Metadata = {

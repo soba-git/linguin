@@ -20,10 +20,10 @@ export const Header = () => {
                 </ClerkLoading>
                 <ClerkLoaded>
                     <SignedIn>
-                        <UserButton/>
+                        <UserButton appearance={{ elements: { avatarBox: { width: "32px", height: "32px" } } }}/>
                     </SignedIn>
                     <SignedOut>
-                        <SignInButton mode="modal" fallbackRedirectUrl="/learn" signUpFallbackRedirectUrl="/learn">
+                        <SignInButton mode="modal" fallbackRedirectUrl="/dashboard" signUpFallbackRedirectUrl="/dashboard">
                             <Button variant="ghost">Sign In</Button>
                         </SignInButton>
                     </SignedOut>

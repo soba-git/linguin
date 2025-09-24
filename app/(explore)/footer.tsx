@@ -65,7 +65,7 @@ export const Footer = () => {
 
   return (
     <footer className="hidden lg:block h-20 border-slate-200 p-2 w-full border-t-2">
-      <div className="w-full h-full flex items-center">
+      <div className="w-full h-full flex items-center lg:max-w-screen-lg mx-auto justify-between">
         {/* Prev button */}
         <Button onClick={handlePrev} className="flex-shrink-0">
           ‹

@@ -16,10 +16,10 @@ export default function Home() {
         />
       </div>
       <div className="flex flex-col items-center gap-y-8">
-        <h1 className="text-xl lg:text-3xl font-bold text-neutral-600 max-w-[480px] text-center w-full">
+        <h1 className="text-xl lg:text-3xl font-bold text-neutral-600 max-w-[480px] text-center">
           Learn Languages of the World with Linguin.
         </h1>
-        <div className="flex flex-col w-full max-w-[320px] lg:max-w-[360px] space-y-2 justify-center items-center">
+        <div className="flex flex-col w-full max-w-[320px] lg:max-w-[360px] space-y-2 justify-center">
           <ClerkLoading>
             <Loader className="animate-spin h-5 w-5 text-muted-foreground" />
           </ClerkLoading>
@@ -33,7 +33,9 @@ export default function Home() {
               </SignInButton>
             </SignedOut>
             <SignedIn>
-              <Button className="w-full" size="lg" variant={"primary"}><Link href="/dashboard">Continue Learning</Link></Button>
+              <Link href="/dashboard">
+                <Button className="w-full" size="lg" variant={"secondary"}>Continue Learning</Button>
+              </Link>
             </SignedIn>
           </ClerkLoaded>
         </div>
