@@ -23,7 +23,7 @@ export const Header = () => {
                         <UserButton appearance={{ elements: { avatarBox: { width: "32px", height: "32px" } } }}/>
                     </SignedIn>
                     <SignedOut>
-                        <SignInButton mode="modal" fallbackRedirectUrl="/dashboard" signUpFallbackRedirectUrl="/dashboard">
+                        <SignInButton mode="modal" fallbackRedirectUrl="/dashboard" signUpFallbackRedirectUrl="/dashboard" asChild>
                             <Button variant="ghost">Sign In</Button>
                         </SignInButton>
                     </SignedOut>

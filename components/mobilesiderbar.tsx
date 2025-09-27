@@ -10,7 +10,7 @@ import { Menu } from "lucide-react";
 export const MobileSidebar = () => {
     return (
         <Sheet>
-            <SheetTrigger>
+            <SheetTrigger asChild>
                 <Button variant={"ghost"}>
                     <Menu className="text-white" />
                 </Button>

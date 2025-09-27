@@ -35,12 +35,12 @@ export const Card = ({
       )}
 
       {/* Flag image container */}
-      <div className="w-24 h-16 mb-3 relative">
+      <div className="w-24 h-16 mb-3 border relative rounded-lg overflow-hidden">
         <Image
           src={imageSrc}
           alt={title}
           fill
-          className="object-contain rounded-lg drop-shadow-md border bg-white"
+          className="object-cover" // change from object-contain to object-cover
         />
       </div>
 
