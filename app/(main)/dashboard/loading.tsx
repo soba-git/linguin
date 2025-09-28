@@ -66,6 +66,7 @@ const Loading = () => {
           <Image
             src="/gifs/duolingo_jumping.gif"
             alt="Loading"
+            unoptimized
             fill
             className="object-contain"
             priority

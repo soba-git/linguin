@@ -1,7 +1,7 @@
 import { cache } from "react";
 import db from "@/db/drizzle";
 import { auth } from "@clerk/nextjs/server";
-import { courses, userProgress } from "./schema";
+import { courses, userProgress, units } from "./schema";
 import { eq } from "drizzle-orm";
 
 export const getCourses = cache(async () => {
@@ -34,4 +34,17 @@ export const getCourseById = cache(async(courseId: number) => {
     });
     
     return data;
+});
+
+export const getUnits = cache(async() => {
+    const userProgress = await getUserProgress();
+    
+    if (!userProgress?.activeCourseId){
+        return[];
+    }
+
+    const data = await db.query.units.findMany({
+        where: eq(units.courseId, userProgress.activeCourseId),
+    });
 })
+
