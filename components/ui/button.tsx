@@ -6,52 +6,50 @@ import { cn } from "@/lib/utils"
 
 
 const buttonVariants = cva(
-  "tracking-wide inline-flex items-center uppercase justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-semibold transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:ring-4 focus-visible:ring-sky-300/50 aria-invalid:ring-destructive/30 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transform-gpu",
+  "tracking-wide inline-flex items-center uppercase justify-center gap-2 whitespace-nowrap rounded-2xl text-[15px] font-bold transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:ring-4 focus-visible:ring-offset-0 aria-invalid:ring-red-500/30 transform-gpu",
   {
     variants: {
       variant: {
-        
+        // Solid variants - flat with subtle shadow
         default:
-          "bg-white text-slate-600 border-slate-200 border-2 border-b-4 shadow-[0_6px_0_rgba(0,0,0,0.06)] hover:shadow-[0_10px_18px_rgba(0,0,0,0.08)] hover:translate-y-[-2px] active:translate-y-[2px] active:border-b-2 transition-all drop-shadow-[0_4px_2px_rgba(0,0,0,0.08)]",
+          "bg-white text-slate-700 border-2 border-b-[3px] border-slate-300 hover:brightness-95 active:border-b-2 active:translate-y-[1px] transition-all duration-100",
         primary:
-          "bg-sky-400 text-white border-sky-500 border-b-4 shadow-[0_6px_0_rgba(2,132,199,0.12)] hover:bg-sky-500 hover:shadow-[0_12px_20px_rgba(2,132,199,0.12)] hover:translate-y-[-2px] active:translate-y-[2px] active:border-b-2 transition-all",
+          "bg-sky-400 text-white border-b-[3px] border-sky-500 shadow-sm hover:bg-sky-500 active:border-b-[1px] active:translate-y-[2px] transition-all duration-100",
         secondary:
-          "bg-green-500 text-white border-green-600 border-b-4 shadow-[0_6px_0_rgba(16,185,129,0.12)] hover:bg-green-500 hover:shadow-[0_12px_20px_rgba(16,185,129,0.12)] hover:translate-y-[-2px] active:translate-y-[2px] active:border-b-2 transition-all",
+          "bg-green-500 text-white border-b-[3px] border-green-600 shadow-sm hover:bg-green-600 active:border-b-[1px] active:translate-y-[2px] transition-all duration-100",
         danger:
-          "bg-red-500 text-white border-red-600 border-b-4 shadow-[0_6px_0_rgba(220,38,38,0.12)] hover:bg-red-600 hover:shadow-[0_12px_20px_rgba(220,38,38,0.12)] hover:translate-y-[-2px] active:translate-y-[2px] active:border-b-2 transition-all",
+          "bg-red-500 text-white border-b-[3px] border-red-600 shadow-sm hover:bg-red-600 active:border-b-[1px] active:translate-y-[2px] transition-all duration-100",
         pro:
-          "bg-gradient-to-r from-indigo-600 to-purple-600 text-white border-b-4 border-indigo-700 shadow-[0_10px_18px_rgba(79,70,229,0.18)] hover:shadow-[0_18px_30px_rgba(79,70,229,0.22)] hover:translate-y-[-2px] active:translate-y-[2px] active:border-b-2 transition-all",
+          "bg-gradient-to-b from-indigo-500 to-indigo-600 text-white border-b-[3px] border-indigo-700 shadow-sm hover:from-indigo-600 hover:to-indigo-700 active:border-b-[1px] active:translate-y-[2px] transition-all duration-100",
 
-        
+        // Outline variants - flat text-only style
         primaryOutline:
-          "bg-transparent text-sky-600 transition-colors hover:text-sky-800 focus:outline-none",
+          "bg-transparent text-sky-500 hover:text-sky-600 active:text-sky-700 transition-colors duration-100",
         secondaryOutline:
-          "bg-white text-green-600 transition-colors hover:text-green-800 focus:outline-none",
+          "bg-transparent text-green-500 hover:text-green-600 active:text-green-700 transition-colors duration-100",
         dangerOutline:
-          "bg-white text-rose-600 transition-colors hover:text-rose-700 focus:outline-none",
+          "bg-transparent text-red-500 hover:text-red-600 active:text-red-700 transition-colors duration-100",
         proOutline:
-          "bg-white text-indigo-700 transition-colors hover:text-indigo-900 focus:outline-none",
+          "bg-transparent text-indigo-600 hover:text-indigo-700 active:text-indigo-800 transition-colors duration-100",
 
-        
+        // Ghost/Sidebar variants - subtle with light effect
         ghost:
-          "bg-transparent hover:bg-slate-100 text-slate-600 hover:text-slate-900 shadow-none hover:shadow-[0_8px_12px_rgba(15,23,42,0.04)] hover:translate-y-[-1px] transition-all data-[state=open]:bg-slate-100 dark:bg-transparent dark:hover:bg-slate-800 dark:text-slate-400 dark:hover:text-slate-200 dark:data-[state=open]:bg-slate-800",
+          "bg-transparent hover:bg-slate-100 text-slate-700 hover:text-slate-900 rounded-xl active:translate-y-[1px] transition-all duration-100 data-[state=open]:bg-slate-100 dark:hover:bg-slate-800 dark:text-slate-300 dark:hover:text-slate-100",
         sidebar:
-          "bg-transparent text-slate-500 border-2 border-transparent hover:bg-slate-100 hover:text-slate-900 hover:border-slate-300 shadow-none hover:shadow-[0_6px_0_rgba(15,23,42,0.03)] hover:translate-y-[-1px] data-[state=open]:bg-slate-100 dark:bg-transparent dark:hover:bg-slate-800 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:border-slate-700 dark:data-[state=open]:bg-slate-800 transition-none",
+          "bg-transparent text-slate-600 hover:bg-slate-100 hover:text-slate-900 rounded-xl active:translate-y-[1px] transition-all duration-100 data-[state=open]:bg-slate-100 dark:hover:bg-slate-800 dark:text-slate-400 dark:hover:text-slate-200",
         sidebarOutline:
-          "bg-sky-500/10 text-sky-600 border-sky-300 border-2 hover:bg-sky-500/20 hover:text-sky-700 hover:border-sky-400 shadow-none hover:shadow-[0_8px_12px_rgba(2,132,199,0.04)] hover:translate-y-[-1px] transition-none",
+          "bg-sky-50 text-sky-700 border-2 border-sky-200 hover:bg-sky-100 hover:border-sky-300 rounded-xl active:translate-y-[1px] transition-all duration-100",
         flag:
-          "bg-transparent text-slate-600 shadow-none hover:translate-y-[-1px] transition-all dark:bg-transparent dark:hover:bg-slate-800 dark:text-slate-400 dark:hover:text-slate-200",
+          "bg-transparent text-slate-600 hover:bg-slate-50 rounded-xl active:translate-y-[1px] transition-all duration-100 dark:text-slate-400 dark:hover:bg-slate-800",
         locked:
-          "bg-neutral-200 text-primary-foreground hover:bg-neutral-200/90 border-neutral-400 border-b-4 active:border-b-0",
-        
-        
-        },
+          "bg-neutral-200 text-neutral-500 border-b-[3px] border-neutral-400 cursor-not-allowed opacity-60",
+      },
       size: {
-        default: "h-11 px-4 py-2 has-[>svg]:px-3",
-        sm: "h-8 gap-1.5 px-3 has-[>svg]:px-2.5",
-        lg: "h-12 px-6 has-[>svg]:px-4",
-        icon: "h-10 w-10",
-        rounded: "h-10 w-10 rounded-full",
+        default: "h-[52px] px-6 py-3 has-[>svg]:px-5",
+        sm: "h-9 gap-1.5 px-4 py-2 text-xs has-[>svg]:px-3",
+        lg: "h-14 px-8 py-4 text-base has-[>svg]:px-6",
+        icon: "h-12 w-12",
+        rounded: "h-12 w-12 rounded-full",
       },
     },
     defaultVariants: {

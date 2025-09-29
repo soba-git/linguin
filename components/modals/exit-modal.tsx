@@ -25,8 +25,7 @@ export const ExitModal = () => {
                 <DialogHeader>
                     <div className="flex items-center w-full justify-center mb-5">
                         <Image
-                        src="/pengi/dont_go.webp" alt="Sad Penguin" height={80} width={80}/>
-
+                        src="/pengi/dont_go.webp" alt="Sad Penguin" height={120} width={120}/>
                     </div>
                     <DialogTitle className="text-center font-bold text-2xl">
                         Hold on, finish the lesson first!
@@ -34,21 +33,20 @@ export const ExitModal = () => {
                     <DialogDescription className="text-center text-base">
                         You&apos;re about to exit the lesson. Are you sure?
                     </DialogDescription>
-                    <DialogFooter className="mb-4">
-                        <div className="flex flex-col gap-y-4 w-full">
-                            <Button variant={"primary"} className="w-full" size={"lg"} onClick={close}>
-                                Keep Learning
-                            </Button>
-                            <Button variant={"dangerOutline"} className="w-full" size={"lg"} onClick={()=> {
-                                close();
-                                router.push("/dashboard");
-                            }}>
-                                End Lesson
-                            </Button>
-                        </div>
-
-                    </DialogFooter>
                 </DialogHeader>
+                <DialogFooter className="mt-5 mb-4">
+                    <div className="flex flex-col gap-y-4 w-full">
+                        <Button variant={"primary"} className="w-full" size={"lg"} onClick={close}>
+                            Keep Learning
+                        </Button>
+                        <Button variant={"dangerOutline"} className="w-full" size={"lg"} onClick={()=> {
+                            close();
+                            router.push("/dashboard");
+                        }}>
+                            End Lesson
+                        </Button>
+                    </div>
+                </DialogFooter>
             </DialogContent>
         </Dialog>
     )
