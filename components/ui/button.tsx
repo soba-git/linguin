@@ -16,7 +16,7 @@ const buttonVariants = cva(
         primary:
           "bg-sky-400 text-white border-sky-500 border-b-4 shadow-[0_6px_0_rgba(2,132,199,0.12)] hover:bg-sky-500 hover:shadow-[0_12px_20px_rgba(2,132,199,0.12)] hover:translate-y-[-2px] active:translate-y-[2px] active:border-b-2 transition-all",
         secondary:
-          "bg-green-400 text-white border-green-500 border-b-4 shadow-[0_6px_0_rgba(16,185,129,0.12)] hover:bg-green-500 hover:shadow-[0_12px_20px_rgba(16,185,129,0.12)] hover:translate-y-[-2px] active:translate-y-[2px] active:border-b-2 transition-all",
+          "bg-green-500 text-white border-green-600 border-b-4 shadow-[0_6px_0_rgba(16,185,129,0.12)] hover:bg-green-500 hover:shadow-[0_12px_20px_rgba(16,185,129,0.12)] hover:translate-y-[-2px] active:translate-y-[2px] active:border-b-2 transition-all",
         danger:
           "bg-red-500 text-white border-red-600 border-b-4 shadow-[0_6px_0_rgba(220,38,38,0.12)] hover:bg-red-600 hover:shadow-[0_12px_20px_rgba(220,38,38,0.12)] hover:translate-y-[-2px] active:translate-y-[2px] active:border-b-2 transition-all",
         pro:
@@ -41,6 +41,10 @@ const buttonVariants = cva(
           "bg-sky-500/10 text-sky-600 border-sky-300 border-2 hover:bg-sky-500/20 hover:text-sky-700 hover:border-sky-400 shadow-none hover:shadow-[0_8px_12px_rgba(2,132,199,0.04)] hover:translate-y-[-1px] transition-none",
         flag:
           "bg-transparent text-slate-600 shadow-none hover:translate-y-[-1px] transition-all dark:bg-transparent dark:hover:bg-slate-800 dark:text-slate-400 dark:hover:text-slate-200",
+        locked:
+          "bg-neutral-200 text-primary-foreground hover:bg-neutral-200/90 border-neutral-400 border-b-4 active:border-b-0",
+        
+        
         },
       size: {
         default: "h-11 px-4 py-2 has-[>svg]:px-3",

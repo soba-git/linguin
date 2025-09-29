@@ -3,15 +3,23 @@ import StickyWrapper from "@/components/sticky-wrapper";
 import FeedWrapper from "@/components/feedwrapper";
 import { Header } from "./header";
 import UserProgress from "@/components/userprogress";
-import { getUserProgress } from "@/db/queries";
-
+import { getUserProgress, getCourseProgress, getLessonPercentage, getUnits } from "@/db/queries";
+import { Unit } from "./unit";
 
 const DashboardPage = async () => {
   const userProgressData = getUserProgress();
+  const courseProgressData = getCourseProgress();
+  const unitData = getUnits();
+  const lessonPercentageData = getLessonPercentage();
+  
 
-  const [userProgress] = await Promise.all([userProgressData]);
+  const [userProgress, units, courseProgress,lessonPercentage] = await Promise.all([userProgressData, unitData, courseProgressData, lessonPercentageData]);
   
   if (!userProgress || !userProgress.activeCourse) {
+    redirect("/courses");
+  }
+
+  if (!courseProgress){
     redirect("/courses");
   }
 
@@ -33,16 +41,12 @@ const DashboardPage = async () => {
       <FeedWrapper>
         <Header title={userProgress.activeCourse.title} />
         <div className="mt-6 space-y-4">
-          {/* Content / lessons go here */}
-          <div className="rounded-lg border bg-white p-6 shadow-sm text-neutral-700">
-            {}
-          </div>
-          <div className="rounded-lg border bg-white p-6 shadow-sm text-neutral-700">
-            Welcome to your ASL course! Select a lesson to begin.
-          </div>
-          <div className="rounded-lg border bg-white p-6 shadow-sm text-neutral-700">
-            Welcome to your ASL course! Select a lesson to begin.
-          </div>
+          {units.map((unit) => (
+            <div key={unit.id} className="mb-10">
+                <Unit id={unit.id} order={unit.order} description={unit.description} title={unit.title} lessons={unit.lessons} activeLesson={courseProgress.activeLesson} activeLessonPercentage={lessonPercentage}/>
+            </div> 
+          ))}
+          
         </div>
       </FeedWrapper>
     </div>

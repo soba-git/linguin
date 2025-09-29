@@ -5,7 +5,7 @@ import * as schema from "../db/schema";
 
 const sql = neon(process.env.DATABASE_URL!);
 
-const db = drizzle(sql, {schema});
+const db = drizzle(sql, { schema });
 
 const main = async () => {
     try {
@@ -40,13 +40,13 @@ const main = async () => {
                 title: "Japanese",
                 imageSrc: "/flags/jap.webp",
             },
-        ]); 
+        ]);
 
 
         await db.insert(schema.units).values([
             {
-                id:1,
-                courseId:1, // Spanish
+                id: 1,
+                courseId: 1, // Spanish
                 title: "Unit 1",
                 description: "Learn how to greet in Spanish!",
                 order: 1,
@@ -55,29 +55,54 @@ const main = async () => {
 
         await db.insert(schema.lessons).values([
             {
-                id:1,
-                unitId:1, // Learn how to greet in spanish
+                id: 1,
+                unitId: 1,
                 order: 1,
                 title: "¡Hola!",
             },
             {
-                id:2,
-                unitId:1, // Learn how to greet in spanish
+                id: 2,
+                unitId: 1,
                 order: 2,
-                title: "How are you? but in Spanish.",
+                title: "Basic Greetings",
             },
             {
-                id:3,
-                unitId:1, // Learn how to greet in spanish
+                id: 3,
+                unitId: 1,
                 order: 3,
-                title: "Basic greetings.",
+                title: "Reviewing Introductions",
             },
             {
-                id:4,
-                unitId:1, // Learn how to greet in spanish
+                id: 4,
+                unitId: 1,
                 order: 4,
-                title: "¡Buenos noches!",
+                title: "Who Are You?",
             },
+            {
+                id: 5,
+                unitId: 1,
+                order: 5,
+                title: "The Verb 'Ser'",
+            },
+            {
+                id: 6,
+                unitId: 1,
+                order: 6,
+                title: "Polite Expressions",
+            },
+            {
+                id: 7,
+                unitId: 1,
+                order: 7,
+                title: "¡Adiós!",
+            },
+            {
+                id: 8,
+                unitId: 1,
+                order: 8,
+                title: "Saying Your Name",
+            },
+
         ]);
 
         await db.insert(schema.challenges).values([
