@@ -102,6 +102,12 @@ const main = async () => {
                 order: 8,
                 title: "Saying Your Name",
             },
+            {
+                id: 9,
+                unitId: 1,
+                order: 9,
+                title: "Saying Your Name 2",
+            },
 
         ]);
 
@@ -116,9 +122,17 @@ const main = async () => {
             {
                 id: 2,
                 lessonId: 1,
-                type: "SELECT",
+                type: "ASSIST",
                 order: 2,
-                question: 'Which of these options mean "the woman" in Spanish?',
+                question: 'How would you greet someone before bed?',
+                
+            },
+            {
+                id: 3,
+                lessonId: 1,
+                type: "SELECT",
+                order: 3,
+                question: 'How would you greet someone in the morning?',
             },
         ]);
 
@@ -129,7 +143,7 @@ const main = async () => {
                 imageSrc: "/multiple_choice_options/spanish/hombre.png",
                 correct: true,
                 text: "El Hombre",
-                audioSrc: "/multiple_choice_options/audios/spanish/hombre.mp3"
+                audioSrc: "/multiple_choice_options/audios/spanish/unit 1/el hombre.mp3"
             },
             {
                 id: 2,
@@ -137,19 +151,66 @@ const main = async () => {
                 imageSrc: "/multiple_choice_options/spanish/mujer.png",
                 correct: false,
                 text: "La Mujer",
-                audioSrc: "/multiple_choice_options/audios/spanish/mujer.mp3"
+                audioSrc: "/multiple_choice_options/audios/spanish/unit 1/la mujer.mp3"
             },
             {
                 id: 3,
                 challengeId: 1,
                 imageSrc: "/multiple_choice_options/spanish/nino.png",
                 correct: false,
-                text: "El Nino",
-                audioSrc: "/multiple_choice_options/audios/spanish/nino.mp3"
+                text: "El Niño",
+                audioSrc: "/multiple_choice_options/audios/spanish/unit 1/el niño.mp3"
             },
 
-        ])
 
+            {
+                id: 4,
+                challengeId: 2,
+                correct: false,
+                text: "Buenas tardes",
+                audioSrc: "/multiple_choice_options/audios/spanish/unit 1/Buenas tardes.mp3"
+            },
+            {
+                id: 5,
+                challengeId: 2,
+                correct: true,
+                text: "Buenos días",
+                audioSrc: "/multiple_choice_options/audios/spanish/unit 1/Buenos días.mp3"
+            },
+            {
+                id: 6,
+                challengeId: 2,
+                correct: false,
+                text: "Mucho gusto",
+                audioSrc: "/multiple_choice_options/audios/spanish/unit 1/Mucho gusto.mp3"
+            },
+
+
+            {
+                id: 7,
+                challengeId: 3,
+                imageSrc: "/multiple_choice_options/spanish/Buenas tardes.png",
+                correct: false,
+                text: "Buenas tardes",
+                audioSrc: "/multiple_choice_options/audios/spanish/unit 1/Buenas tardes.mp3"
+            },
+            {
+                id: 8,
+                challengeId: 3,
+                imageSrc: "/multiple_choice_options/spanish/Buenos días.png",
+                correct: true,
+                text: "Buenos días",
+                audioSrc: "/multiple_choice_options/audios/spanish/unit 1/Buenos días.mp3"
+            },
+            {
+                id: 9,
+                challengeId: 3,
+                imageSrc: "/multiple_choice_options/spanish/Buenas noches.png",
+                correct: false,
+                text: "Buenas noches",
+                audioSrc: "/multiple_choice_options/audios/spanish/unit 1/Buenas noches.mp3"
+            },
+        ])
 
         console.log("Seeding Finished.")
     }

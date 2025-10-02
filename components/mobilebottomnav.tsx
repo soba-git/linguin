@@ -53,4 +53,3 @@ export const MobileBottomNav = () => {
 };
 
 export default MobileBottomNav;
-

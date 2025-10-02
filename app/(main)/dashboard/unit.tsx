@@ -26,7 +26,7 @@ export const Unit = ({
     activeLessonPercentage,
 }: Props) => {
     return (
-        <div>
+        <div id={`unit-${id}`} data-unit-title={title}>
             <UnitBanner title={title} description={description} />
 
             <div className="flex items-center flex-col relative">

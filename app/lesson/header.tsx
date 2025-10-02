@@ -1,4 +1,4 @@
-import {X, InfinityIcon} from "lucide-react";
+import { X, Infinity } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import Image from "next/image";
 import { useExitModal } from "@/store/use-exit-modal";
@@ -14,16 +14,42 @@ export const Header = ({
     percentage,
     isProActive,
 }: Props) => {
-    const {open} = useExitModal();
+    const { open } = useExitModal();
 
     return (
-        <header className="lg:pt-[50px] pt-[20px] px-10 flex gap-x-7 items-center justify-between max-w-[1140px] mx-auto">
-            <X onClick={open} className="text-slate-500 hover:opacity-75 transition cursor-pointer"/>
-            <Progress value={percentage}/>
-            <div className="text-rose-500 flex items-center font-bold">
-                <Image src="/icons/heart.png" height={28} width={28} alt={"Heart"} className="mr-2"></Image>
-                {isProActive?<InfinityIcon className="h-6 w-6 stroke-[3]"/>:hearts}
+        <header className="bg-white">
+            <div className="lg:pt-[50px] pt-[20px] pb-[16px] px-4 sm:px-6 lg:px-10 max-w-[1140px] mx-auto">
+                <div className="flex items-center justify-between gap-4 lg:gap-7">
+                    {/* Exit Button */}
+                    <button
+                        onClick={open}
+                        className="flex-shrink-0 hover:opacity-75 transition-opacity"
+                        aria-label="Exit quiz"
+                    >
+                        <X className="h-6 w-6 lg:h-7 lg:w-7 text-gray-400 stroke-[2.5]" />
+                    </button>
+
+                    {/* Progress Bar - Takes up remaining space */}
+                    <div className="flex-1 min-w-0 max-w-[900px]">
+                        <Progress value={percentage} />
+                    </div>
+
+                    {/* Hearts Display */}
+                    <div className="flex items-center gap-2 text-rose-500 font-bold text-lg lg:text-xl">
+                        <Image
+                            src="/icons/heart.png"
+                            alt="Heart"
+                            width={28}
+                            height={28}
+                        />
+                        {isProActive ? (
+                            <Infinity className="h-5 w-5 lg:h-6 lg:w-6 stroke-[3]" />
+                        ) : (
+                            hearts
+                        )}
+                    </div>
+                </div>
             </div>
         </header>
-    )
-}
+    );
+};

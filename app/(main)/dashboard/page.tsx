@@ -24,7 +24,7 @@ const DashboardPage = async () => {
   }
 
   return (
-    <div className="flex flex-row-reverse px-6 gap-12">
+    <div className="flex flex-row-reverse px-3 sm:px-6 gap-12">
       {/* Right sidebar */}
       <StickyWrapper>
         <div className="bg-white shadow-sm rounded-xl p-4 border flex flex-col items-center">
@@ -39,7 +39,9 @@ const DashboardPage = async () => {
 
       {/* Main feed */}
       <FeedWrapper>
-        <Header title={userProgress.activeCourse.title} />
+        <Header
+          title={userProgress.activeCourse.title}
+        />
         <div className="mt-6 space-y-4">
           {units.map((unit) => (
             <div key={unit.id} className="mb-10">

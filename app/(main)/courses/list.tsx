@@ -23,10 +23,15 @@ export const List = ({courses, activeCourseId}: Props) => {
             return router.push("/dashboard");
         }
 
-        startTransition(() => {
-            upsertUserProgress(id)
-            .catch(() => toast.error("A wild error appeared! 🎮 Use F5 to fight."))
-        });
+        startTransition(async () => {
+    try {
+        await upsertUserProgress(id);
+        router.push("/dashboard"); // client-side navigation
+    } catch (err) {
+        console.error(err);
+        toast.error("A wild error appeared! 🎮 Use F5 to fight.");
+    }
+});
     }
     
     return(

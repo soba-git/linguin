@@ -3,9 +3,10 @@
 import db from "@/db/drizzle";
 import { getCourseById, getUserProgress } from "@/db/queries";
 import { auth, currentUser } from "@clerk/nextjs/server";
-import { courses, userProgress } from "@/db/schema";
+import { challengeProgress, challenges, userProgress } from "@/db/schema";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { and, eq } from "drizzle-orm";
 
 
 export const upsertUserProgress = async (courseId: number) => {
@@ -17,14 +18,9 @@ export const upsertUserProgress = async (courseId: number) => {
     }
 
     const course = await getCourseById(courseId);
-
     if (!course) {
         throw new Error("Course not found.");
     }
-
-    // if (!course.units.length || !course.units[0].lessons.length) {
-    // throw new Error("Course is empty...");
-    // }
 
     const existingUserProgress = await getUserProgress();
 
@@ -34,21 +30,68 @@ export const upsertUserProgress = async (courseId: number) => {
             userName: user.firstName || "User",
             userImageSrc: user.imageUrl || "/favicon/favicon.png"
         });
-
-        revalidatePath("/dashboard");
-        revalidatePath("/courses");
-        redirect("/dashboard");
+    } else {
+        await db.insert(userProgress).values({
+            userId,
+            activeCourseId: courseId,
+            userName: user.firstName || "User",
+            userImageSrc: user.imageUrl || "/favicon/favicon.png"
+        });
     }
 
-    await db.insert(userProgress).values({
-        userId,
-        activeCourseId: courseId,
-        userName: user.firstName || "User",
-        userImageSrc: user.imageUrl || "/favicon/favicon.png"
-    });
-
+    // Only call revalidatePath here; do NOT call redirect in server action
     revalidatePath("/dashboard");
     revalidatePath("/courses");
-    redirect("/dashboard");
 
-}
+    // Return something to client if needed
+    return { success: true };
+};
+
+export const loseHearts = async (challengeId: number) => {
+    const { userId } = await auth();
+
+    if (!userId) {
+        throw new Error("Unauthorized");
+    }
+    const currentUserProgress = await getUserProgress();
+
+    const challenge = await db.query.challenges.findFirst({
+        where: eq(challenges.id, challengeId),
+    });
+
+    if(!challenge){
+        throw new Error("Challenge not found");
+    }
+
+    const lessonId = challenge.lessonId;
+
+    const existingChallengeProgress = await db.query.challengeProgress.findFirst({
+        where: and(
+            eq(challengeProgress.userId, userId),
+            eq(challengeProgress.challengeId, challengeId),
+        ),
+    });
+    const isPractice = !!existingChallengeProgress;
+
+    if (isPractice) {
+        return { error: "practice" };
+    }
+
+    if (!currentUserProgress) {
+        throw new Error("User progress not found");
+    }
+
+    if (currentUserProgress.hearts === 0) {
+        return { error: "hearts" } // not enough hearts to reduce
+    }
+
+    await db.update(userProgress).set({
+        hearts: Math.max(currentUserProgress.hearts - 1, 0)
+    }).where(eq(userProgress.userId, userId));
+
+    revalidatePath("/dashboard");
+    revalidatePath("/quests");
+    revalidatePath("/leaderboards");
+    revalidatePath("/shop");
+    revalidatePath('');
+};
