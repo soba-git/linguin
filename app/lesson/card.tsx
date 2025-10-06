@@ -60,7 +60,7 @@ export const Card = ({
         // Disabled state
         disabled && "pointer-events-none opacity-50 cursor-not-allowed",
         // Assist type modifications
-        type === "ASSIST" && "lg:p-3 w-full"
+        type === "ASSIST" && "p-4 w-full h-16 flex items-center"
       )}
     >
       {audio}
@@ -81,24 +81,9 @@ export const Card = ({
       <div
         className={cn(
           "flex items-center justify-between gap-2",
-          type === "ASSIST" && "flex-row-reverse"
+          type === "ASSIST" && "w-full"
         )}
       >
-        {type === "ASSIST" && <div />}
-        
-        {/* Text */}
-        <p
-          className={cn(
-            "text-neutral-700 text-sm sm:text-base lg:text-lg font-normal flex-1",
-            selected && "text-sky-600 font-medium",
-            selected && status === "correct" && "text-green-600 font-medium",
-            selected && status === "incorrect" && "text-rose-600 font-medium",
-            type === "ASSIST" && "text-center"
-          )}
-        >
-          {text}
-        </p>
-
         {/* Keyboard Shortcut Badge */}
         <div
           className={cn(
@@ -117,6 +102,22 @@ export const Card = ({
         >
           {shortcut}
         </div>
+        
+        {/* Text */}
+        <p
+          className={cn(
+            "text-neutral-700 text-sm sm:text-base lg:text-lg font-normal flex-1",
+            selected && "text-sky-600 font-medium",
+            selected && status === "correct" && "text-green-600 font-medium",
+            selected && status === "incorrect" && "text-rose-600 font-medium",
+            type === "ASSIST" && "text-center"
+          )}
+        >
+          {text}
+        </p>
+
+        {/* Spacer for ASSIST type */}
+        {type === "ASSIST" && <div className="w-8" />}
       </div>
 
       {/* Status Icon - Checkmark for correct */}

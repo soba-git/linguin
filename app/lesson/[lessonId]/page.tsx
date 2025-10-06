@@ -1,14 +1,22 @@
 import { getLesson, getUserProgress } from "@/db/queries";
 import { redirect } from "next/navigation";
-import { Quiz } from "./quiz";
+import { Quiz } from "../quiz";
+
+type Props = {
+    params: Promise<{
+        lessonId: string; // Next.js route params are strings and are async in Next 15
+    }>;
+}
 
 
-const LessonPage = async () => {
-    const lessonData = getLesson();
-    const userProgressData = getUserProgress();
+const LessonIdPage = async ({
+    params,
+}: Props) => {
+    const { lessonId: lessonIdParam } = await params;
+    const lessonId = Number(lessonIdParam);
 
     const [lesson, userProgress] = await Promise.all([
-        getLesson(),
+        getLesson(Number.isNaN(lessonId) ? undefined : lessonId),
         getUserProgress(),
     ]);
 
@@ -25,4 +33,4 @@ const LessonPage = async () => {
     );
 };
 
-export default LessonPage;
+export default LessonIdPage;

@@ -1,4 +1,4 @@
-import { pgTable, pgEnum, serial, text, integer, boolean } from "drizzle-orm/pg-core";
+import { pgTable, pgEnum, serial, text, integer, boolean, timestamp } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
 
@@ -125,3 +125,12 @@ export const userProgressRelations = relations(userProgress, ({ one }) => ({
     references: [courses.id],
   }),
 }));
+
+export const proMembers = pgTable("pro_members",{
+  id: serial("id").primaryKey(),
+  userId: text("user_id").notNull().unique(),
+  paystackCustomerId: text("paystack_customer_id").notNull().unique(),
+  paystackSubscriptionId: text("paystack_subscription_id").notNull().unique(),
+  paystackPriceId: text("paystack_price_id").notNull(),
+  paystackCurrentSubscriptionEnd: timestamp("paystack_current_subscription_end").notNull(),
+});

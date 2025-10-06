@@ -9,7 +9,7 @@ type Props = {
     onCheck: () => void;
     status: "correct" | "incorrect" | "none" | "completed";
     disabled?: boolean;
-    lessonId?: boolean;
+    lessonId?: number;
 };
 
 export const Footer = ({
@@ -40,7 +40,7 @@ export const Footer = ({
                     </div>
                 )}
                 {status === "completed" && (
-                    <Button variant={"default"} size={isMobile ? "sm" : "lg"} onClick={() => window.location.href = '/lesson/${lessonId}'}>
+                    <Button variant={"default"} size={isMobile ? "sm" : "lg"} onClick={() => window.location.href = `/lesson/${lessonId}`}>
                         Practice Again
                     </Button>
                 )}

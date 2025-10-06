@@ -130,3 +130,15 @@ html, body, :root {
   }
 }
 
+@keyframes bounce-slow {
+  0%, 100% {
+    transform: translateY(-4px);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 2.5s ease-in-out infinite;
+}

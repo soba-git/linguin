@@ -134,6 +134,36 @@ const main = async () => {
                 order: 3,
                 question: 'How would you greet someone in the morning?',
             },
+
+            {
+                id: 4,
+                lessonId: 2,
+                type: "ASSIST",
+                order: 1,
+                question: 'Nice to meet you.',
+            },
+            // New FILL-type challenges
+            {
+                id: 5,
+                lessonId: 1,
+                type: "FILL",
+                order: 4,
+                question: 'Good night.',
+            },
+            {
+                id: 6,
+                lessonId: 1,
+                type: "FILL",
+                order: 5,
+                question: 'Hello.',
+            },
+            {
+                id: 7,
+                lessonId: 2,
+                type: "FILL",
+                order: 2,
+                question: 'Nice to meet you.',
+            },
         ]);
 
         await db.insert(schema.challengeOptions).values([
@@ -209,6 +239,49 @@ const main = async () => {
                 correct: false,
                 text: "Buenas noches",
                 audioSrc: "/multiple_choice_options/audios/spanish/unit 1/Buenas noches.mp3"
+            },
+
+
+            {
+                id: 10,
+                challengeId: 4,
+                correct: false,
+                text: "¿Qué tal?",
+                audioSrc: "/multiple_choice_options/audios/spanish/unit 1/¿Qué tal.mp3"
+            },
+            {
+                id: 11,
+                challengeId: 4,
+                correct: false,
+                text: "¿Cómo estás?",
+                audioSrc: "/multiple_choice_options/audios/spanish/unit 1/¿Cómo estás.mp3"
+            },
+            {
+                id: 12,
+                challengeId: 4,
+                correct: true,
+                text: "Mucho gusto",
+                audioSrc: "/multiple_choice_options/audios/spanish/unit 1/Mucho gusto.mp3"
+            },
+
+            // Correct answers for FILL-type challenges
+            {
+                id: 13,
+                challengeId: 5,
+                correct: true,
+                text: "Buenas noches",
+            },
+            {
+                id: 14,
+                challengeId: 6,
+                correct: true,
+                text: "Hola",
+            },
+            {
+                id: 15,
+                challengeId: 7,
+                correct: true,
+                text: "Mucho gusto",
             },
         ])
 
