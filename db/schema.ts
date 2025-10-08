@@ -16,7 +16,7 @@ export const courses = pgTable("courses", {
  * Relation from courses to user progress
  * One course can have many users progressing through it
  */
-export const courseRelations = relations(courses, ({ many }) => ({
+export const courseRelations = relations(courses, ({ many }: any) => ({
   userProgress: many(userProgress),
   units: many(units),
 }));
@@ -29,7 +29,7 @@ export const units = pgTable("units", {
   order: integer("order").notNull(), // order of the unit so we know how to display it
 });
 
-export const unitsRelations = relations(units, ({many,one}) => ({
+export const unitsRelations = relations(units, ({many,one}: any) => ({
   course: one(courses, {
     fields: [units.courseId],
     references: [courses.id],
@@ -44,7 +44,7 @@ export const lessons = pgTable("lessons", {
   order: integer("order").notNull(),
 });
 
-export const lessonsRelations = relations(lessons, ({one, many}) => ({
+export const lessonsRelations = relations(lessons, ({one, many}: any) => ({
   unit: one (units, {
     fields: [lessons.unitId],
     references: [units.id]
@@ -62,7 +62,7 @@ export const challenges = pgTable("challenges", {
   order: integer("order").notNull(),
 });
 
-export const challengesRelations = relations(challenges, ({one, many}) => ({
+export const challengesRelations = relations(challenges, ({one, many}: any) => ({
   lesson: one(lessons, {
     fields: [challenges.lessonId],
     references: [lessons.id],
@@ -80,7 +80,7 @@ export const challengeOptions = pgTable("challenge_options", {
   audioSrc: text("audio_src"),
 });
 
-export const challengesOptionsRelations = relations(challengeOptions, ({one}) => ({
+export const challengesOptionsRelations = relations(challengeOptions, ({one}: any) => ({
   challenge: one(challenges, {
     fields: [challengeOptions.challengeId],
     references: [challenges.id],
@@ -94,7 +94,7 @@ export const challengeProgress = pgTable("challenge_progress", {
   completed: boolean("completed").notNull().default(false),
 });
 
-export const challengeProgressRelations = relations(challengeProgress, ({one}) => ({
+export const challengeProgressRelations = relations(challengeProgress, ({one}: any) => ({
   challenge: one(challenges, {
     fields: [challengeProgress.challengeId],
     references: [challenges.id],
@@ -119,7 +119,7 @@ export const userProgress = pgTable("user_progress", {
  * Relation from user progress to courses
  * A user can have one active course
  */
-export const userProgressRelations = relations(userProgress, ({ one }) => ({
+export const userProgressRelations = relations(userProgress, ({ one }: any) => ({
   activeCourse: one(courses, {
     fields: [userProgress.activeCourseId],
     references: [courses.id],

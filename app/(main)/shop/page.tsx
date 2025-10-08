@@ -1,5 +1,5 @@
 import { StickyWrapper } from "@/components/sticky-wrapper";
-import { getUserProgress } from "@/db/queries";
+import { getUserProgress, getProMembers } from "@/db/queries";
 import { UserProgress } from "@/components/userprogress";
 import { redirect } from "next/navigation";
 import FeedWrapper from "@/components/feedwrapper";
@@ -8,8 +8,8 @@ import { Items } from "./items";
 
 const ShopPage = async () => {
     const userProgressData = getUserProgress();
-
-    const [userProgress] = await Promise.all([userProgressData,])
+    const proMembersData = getProMembers();
+    const [userProgress, proMembers] = await Promise.all([userProgressData, proMembersData])
 
     if (!userProgress || !userProgress.activeCourse) {
         redirect("/courses")
@@ -23,7 +23,7 @@ const ShopPage = async () => {
                     activeCourse={userProgress.activeCourse}
                     hearts ={userProgress.hearts}
                     points = {userProgress.points}
-                    isProActive={false}
+                    isProActive={!!proMembers?.isProMember}
                 />
             </StickyWrapper>
             <FeedWrapper>
@@ -31,7 +31,7 @@ const ShopPage = async () => {
                     <Image src="sidebar items/store.svg" alt="Shop" height={90} width={90} />
                     <h1 className="text-center font-bold text-neutral-800 text-2xl my-6"> Shop </h1>
                     <p className="text-muted-foreground text-center text-lg mb-6"> Spend your gold here.</p>
-                    <Items hearts={userProgress.hearts} points={userProgress.points} isProActive={false}/>
+                    <Items hearts={userProgress.hearts} points={userProgress.points} isProActive={!!proMembers?.isProMember}/>
                 </div>
             </FeedWrapper>
         </div>

@@ -1,7 +1,7 @@
 "use server";
 
 import db from "@/db/drizzle";
-import { getCourseById, getUserProgress } from "@/db/queries";
+import { getCourseById, getProMembers, getUserProgress } from "@/db/queries";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { challengeProgress, challenges, userProgress } from "@/db/schema";
 import { revalidatePath } from "next/cache";
@@ -18,6 +18,10 @@ export const upsertUserProgress = async (courseId: number) => {
   const course = await getCourseById(courseId);
   if (!course) {
     throw new Error("Course not found.");
+  }
+
+  if (!course.units.length || !course.units[0].lessons.length) {
+    throw new Error ("Course is empty");
   }
 
   const existingUserProgress = await getUserProgress();
@@ -89,6 +93,7 @@ export const loseHearts = async (challengeId: number) => {
   }
 
   const currentUserProgress = await getUserProgress();
+  const proMember = await getProMembers();
 
   const challenge = await db.query.challenges.findFirst({
     where: eq(challenges.id, challengeId),
@@ -113,6 +118,10 @@ export const loseHearts = async (challengeId: number) => {
 
   if (!currentUserProgress) {
     throw new Error("User progress not found");
+  }
+
+  if (proMember?.isProMember){
+      return {error: "subscription"};
   }
 
   if (currentUserProgress.hearts === 0) {

@@ -1,11 +1,11 @@
 "use client";
 
-import { challengeOptions, challenges } from "@/db/schema";
+import { challengeOptions, challenges} from "@/db/schema";
 import { Header } from "./header";
 import { Challenge } from "./challenge";
 import { Footer } from "./footer";
 import { QuestionBubble } from "./question-bubble";
-import { useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { upsertChallengeProgress } from "@/actions/challenge-progress";
 import { toast } from "sonner";
 import { useAudio, useWindowSize, useMount } from "react-use";
@@ -40,7 +40,8 @@ export const Quiz = ({ initialPercentage, initialHearts, initialLessonId, initia
     })
 
     const router = useRouter();
-    const [finishAudio] = useAudio({src:"/sfx/cheer.mp3", autoPlay:true});
+    const [finishAudio, _f, finishControls] = useAudio({ src: "/sfx/cheer.mp3" });
+    const finishPlayedRef = useRef(false);
     const {width, height} = useWindowSize();
     const [isPending, startTransition] = useTransition();
     const [correctAudio, _c, correctControls,] = useAudio({ src: "/sfx/correct.mp3" });
@@ -62,6 +63,22 @@ export const Quiz = ({ initialPercentage, initialHearts, initialLessonId, initia
 
 
     const currentChallenge = challenges[activeIndex];
+
+    // If this lesson has no challenges, show a friendly message instead of jumping to results
+    if (!challenges || challenges.length === 0) {
+        return (
+            <>
+                <div className="flex flex-col gap-y-4 lg:gap-y-8 max-w-lg mx-auto text-center items-center justify-center h-full">
+                    <Image src="/icons/clipboard.png" alt="No challenges yet" className="block lg:hidden" height={100} width={100} />
+                    <h1 className="text-xl lg:text-3xl font-bold text-neutral-500">
+                        This lesson isn't ready yet
+                    </h1>
+                    <p className="text-neutral-500">New challenges are coming soon. Pick another lesson for now.</p>
+                </div>
+                <Footer lessonId={lessonId} status="completed" onCheck={() => router.push("/dashboard")} />
+            </>
+        );
+    }
     const options = currentChallenge?.challengeOptions ?? [];
 
     const onNext = () => {
@@ -98,7 +115,7 @@ export const Quiz = ({ initialPercentage, initialHearts, initialLessonId, initia
             return;
         };
 
-        const correctOption = options.find((option) => option.correct);
+        const correctOption = options.find((option: typeof challengeOptions.$inferSelect) => option.correct);
 
 
         if (!correctOption) {
@@ -106,10 +123,21 @@ export const Quiz = ({ initialPercentage, initialHearts, initialLessonId, initia
         }
 
         const isFillCorrect = () => {
+            const normalizeAnswer = (value: string) => {
+                // Normalize accents, strip diacritics, remove punctuation, collapse spaces, lowercase
+                const withoutAccents = value.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                return withoutAccents
+                    .toLowerCase()
+                    .replace(/[^a-z0-9\s]/gi, "")
+                    .replace(/\s+/g, " ")
+                    .trim();
+            };
+
             const acceptableAnswers = options
-                .filter((o) => o.correct)
-                .map((o) => (o.text || "").trim().toLowerCase());
-            const normalized = fillInput.trim().toLowerCase();
+                .filter((o: typeof challengeOptions.$inferSelect) => o.correct)
+                .map((o: typeof challengeOptions.$inferSelect) => normalizeAnswer(o.text || ""));
+
+            const normalized = normalizeAnswer(fillInput);
             return acceptableAnswers.includes(normalized);
         }
 
@@ -120,7 +148,7 @@ export const Quiz = ({ initialPercentage, initialHearts, initialLessonId, initia
                 upsertChallengeProgress(currentChallenge.id)
                     .then((response) => {
                         if (response?.error === "hearts") {
-                            openHeartsModal();
+                            if (!isProMember?.isProMember) openHeartsModal();
                             return;
                         }
                         correctControls.play();
@@ -135,30 +163,48 @@ export const Quiz = ({ initialPercentage, initialHearts, initialLessonId, initia
                     .catch(() => toast.error("Something went wrong. Try again."));
             });
         } else {
-            startTransition(() => {
-                loseHearts(currentChallenge.id)
-                    .then((response) => {
-                        if (response?.error === "hearts") {
-                            openHeartsModal();
-                            return;
-                        }
-                        incorrectControls.play();
-                        setStatus("incorrect");
+            if (isProMember?.isProMember) {
+                incorrectControls.play();
+                setStatus("incorrect");
+            } else {
+                startTransition(() => {
+                    loseHearts(currentChallenge.id)
+                        .then((response) => {
+                            if (response?.error === "hearts") {
+                                openHeartsModal();
+                                return;
+                            }
+                            incorrectControls.play();
+                            setStatus("incorrect");
 
-                        if (!response?.error) {
-                            setHearts((prev) => Math.max(prev - 1, 0));
-                        }
-                    })
-                    .catch(() => toast.error("Something went wrong. Please try again."));
-            });
+                            if (!response?.error) {
+                                setHearts((prev) => Math.max(prev - 1, 0));
+                            }
+                        })
+                        .catch(() => toast.error("Something went wrong. Please try again."));
+                });
+            }
         }
 
     };
+
+    // Play finish audio only once when reaching the results screen
+    useEffect(() => {
+        if (!currentChallenge && !finishPlayedRef.current) {
+            finishPlayedRef.current = true;
+            finishControls.play();
+        }
+    }, [currentChallenge, finishControls]);
 
     if (!currentChallenge) {
         return (
             <>  
                 {finishAudio}
+                {/* Ensure all useAudio elements are mounted even on results screen */}
+                <div className="hidden">
+                    {correctAudio}
+                    {incorrectAudio}
+                </div>
                 <Confetti width={width} height={height} recycle={false} numberOfPieces={600} tweenDuration={10000}/>
                 <div className="flex flex-col gap-y-4 lg:gap-y-8 max-w-lg mx-auto text-center items-center justify-center h-full">
                     <Image src="/icons/confetti.png" alt="Completed Lesson" className="block lg:hidden" height={100} width={100}>
@@ -190,7 +236,9 @@ export const Quiz = ({ initialPercentage, initialHearts, initialLessonId, initia
         <>
             {correctAudio}
             {incorrectAudio}
-            <Header hearts={hearts} percentage={percentage} isProActive={!!isProMember?.isActive} />
+            {/* Render finish audio on normal flow so hook has element at mount */}
+            <div className="hidden">{finishAudio}</div>
+            <Header hearts={hearts} percentage={percentage} isProActive={!!isProMember?.isProMember} />
             <div className="flex-1 flex flex-col">
                 <div className="flex-1 flex items-center justify-center">
                     <div className="w-full max-w-md lg:max-w-xl px-4 sm:px-6 flex flex-col gap-y-8 sm:gap-y-12">

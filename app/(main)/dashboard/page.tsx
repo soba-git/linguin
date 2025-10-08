@@ -3,17 +3,18 @@ import StickyWrapper from "@/components/sticky-wrapper";
 import FeedWrapper from "@/components/feedwrapper";
 import { Header } from "./header";
 import UserProgress from "@/components/userprogress";
-import { getUserProgress, getCourseProgress, getLessonPercentage, getUnits } from "@/db/queries";
+import { getUserProgress, getCourseProgress, getLessonPercentage, getUnits, getProMembers } from "@/db/queries";
 import { Unit } from "./unit";
 
 const DashboardPage = async () => {
   const userProgressData = getUserProgress();
   const courseProgressData = getCourseProgress();
   const unitData = getUnits();
+  const proMembersData = getProMembers();
   const lessonPercentageData = getLessonPercentage();
   
 
-  const [userProgress, units, courseProgress,lessonPercentage] = await Promise.all([userProgressData, unitData, courseProgressData, lessonPercentageData]);
+  const [userProgress, units, courseProgress,lessonPercentage, proMember] = await Promise.all([userProgressData, unitData, courseProgressData, lessonPercentageData, proMembersData]);
   
   if (!userProgress || !userProgress.activeCourse) {
     redirect("/courses");
@@ -32,7 +33,7 @@ const DashboardPage = async () => {
             activeCourse={userProgress.activeCourse}
             hearts={userProgress.hearts}
             points={userProgress.points}
-            isProActive={false}
+            isProActive={!!proMember?.isProMember}
           />
         </div>
       </StickyWrapper>
@@ -43,7 +44,7 @@ const DashboardPage = async () => {
           title={userProgress.activeCourse.title}
         />
         <div className="mt-6 space-y-4">
-          {units.map((unit) => (
+          {units.map((unit: any) => (
             <div key={unit.id} className="mb-10">
                 <Unit id={unit.id} order={unit.order} description={unit.description} title={unit.title} lessons={unit.lessons} activeLesson={courseProgress.activeLesson} activeLessonPercentage={lessonPercentage}/>
             </div> 

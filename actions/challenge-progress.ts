@@ -1,7 +1,7 @@
 "use server";
 
 import { auth } from "@clerk/nextjs/server";
-import { getUserProgress } from "@/db/queries";
+import { getProMembers, getUserProgress } from "@/db/queries";
 import db from "@/db/drizzle";
 import { eq, and } from "drizzle-orm";
 import { challengeProgress, challenges, userProgress } from "@/db/schema";
@@ -16,6 +16,7 @@ export const upsertChallengeProgress = async (challengeId: number) => {
     }
 
     const currentUserProgress = await getUserProgress();
+    const proMember = await getProMembers();
 
     if (!currentUserProgress) {
         throw new Error("There is no User Progress");
@@ -39,7 +40,7 @@ export const upsertChallengeProgress = async (challengeId: number) => {
 
     const isPractice = !!existingChallengeProgress;
 
-    if (currentUserProgress.hearts === 0 && !isPractice) { //If we not practicing, we won't prevent the user from practicing if they don't have hearts left, hearts are only for the current active lesson so if it is not a practice we use hearts
+    if (currentUserProgress.hearts === 0 && !isPractice && !proMember) { //Also if not pro subscription, If we not practicing, we won't prevent the user from practicing if they don't have hearts left, hearts are only for the current active lesson so if it is not a practice we use hearts
         return { error: "hearts" };
     }
 
